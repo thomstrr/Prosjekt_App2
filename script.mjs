@@ -40,7 +40,6 @@ function postSum(req, res, next) {
     const numB = parseFloat(b);
 
     const sum = numA + numB;
-
     res.status(HTTP_CODES.SUCCESS.OK).send({ sum }).end();
 };
 
