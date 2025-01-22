@@ -7,6 +7,97 @@ const port = (process.env.PORT || 8000);
 server.set('port', port);
 server.use(express.static('public'));
 
+const decks = {};
+
+//Cards-------------------------------------------------------------------------------------------
+
+function createNewDeck(){
+    const cardSuits = ['hearts', 'diamonds', 'clubs', 'spades'];
+    const cardValues = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
+
+    const deck = [];
+    for (const suit of cardSuits){
+        for (const value of cardValues){
+            deck.push({suit, value});
+        }
+    }
+    return deck;
+};
+
+
+//Add new deck
+server.post('/temp/deck', (req, res) => {
+    const deckID = `deck_${Date.now()}`;
+    decks[deckID] = createNewDeck();
+
+    console.log('Deck Created:', deckID); // Log the creation
+    console.log('Deck Content:', decks[deckID]); // Log the deck content
+
+    res.status(HTTP_CODES.SUCCESS.CREATED).send({deck_id: deckID}).end(); 
+});
+
+
+//Shuffle deck
+server.patch('/temp/deck/shuffle/:deck_id', (req, res) => {
+    const {deck_id} = req.params;
+    const deck = decks[deck_id];
+
+    console.log('Deck Shuffling:', deck_id); // Log deck being shuffled
+
+    if (!deck){
+        return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({error: 'Deck is not found'}).end();
+    };
+
+    for (let i = deck.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    };
+
+    console.log('Deck After Shuffle:', deck); // Log shuffled deck
+    res.status(HTTP_CODES.SUCCESS.OK).send({message: 'Deck is shuffled'}).end();
+});
+
+
+//Get deck
+server.get('/temp/deck/:deck_id', (req, res) => {
+    const {deck_id} = req.params;
+    const deck = decks[deck_id];
+
+    console.log('Get Deck:', deck_id); // Log when getting deck
+
+    if (!deck) {
+        return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({error: 'Deck is not found' });
+    }
+
+    res.status(HTTP_CODES.SUCCESS.OK).send({deck});
+});
+
+
+//Get card from deck
+server.get('/temp/deck/:deck_id/card', (req, res) => {
+    const {deck_id} = req.params;
+    const deck = decks[deck_id];
+
+    console.log('Get Card from Deck:', deck_id); // Log when getting card
+
+    if (!deck) {
+        return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({ error: 'Deck is not found' });
+    }
+
+    if (deck.length === 0) {
+        return res.status(HTTP_CODES.CLIENT_ERROR.BAD_REQUEST).send({ error: 'No cards left in the deck' });
+    }
+
+    const cardIndex = Math.floor(Math.random() * deck.length);
+    const card = deck.splice(cardIndex, 1)[0];
+    
+    console.log('Card Drawn:', card); // Log the card drawn
+
+    res.status(HTTP_CODES.SUCCESS.OK).send({card});
+});
+
+
+//Uke 3 oppgaver-------------------------------------------------------------------------------------------
 function getRoot(req, res, next) {
     res.status(HTTP_CODES.SUCCESS.OK).send('Hello World').end();
 };
