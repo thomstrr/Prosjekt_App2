@@ -12,7 +12,7 @@ const decks = {};
 //Cards-------------------------------------------------------------------------------------------
 
 function createNewDeck(){
-    const cardSuits = ['hearts', 'diamonds', 'clubs', 'spades'];
+    const cardSuits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
     const cardValues = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
 
     const deck = [];
@@ -30,9 +30,6 @@ server.post('/temp/deck', (req, res) => {
     const deckID = `deck_${Date.now()}`;
     decks[deckID] = createNewDeck();
 
-    console.log('Deck Created:', deckID); // Log the creation
-    console.log('Deck Content:', decks[deckID]); // Log the deck content
-
     res.status(HTTP_CODES.SUCCESS.CREATED).send({deck_id: deckID}).end(); 
 });
 
@@ -41,8 +38,6 @@ server.post('/temp/deck', (req, res) => {
 server.patch('/temp/deck/shuffle/:deck_id', (req, res) => {
     const {deck_id} = req.params;
     const deck = decks[deck_id];
-
-    console.log('Deck Shuffling:', deck_id); // Log deck being shuffled
 
     if (!deck){
         return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({error: 'Deck is not found'}).end();
@@ -53,7 +48,6 @@ server.patch('/temp/deck/shuffle/:deck_id', (req, res) => {
         [deck[i], deck[j]] = [deck[j], deck[i]];
     };
 
-    console.log('Deck After Shuffle:', deck); // Log shuffled deck
     res.status(HTTP_CODES.SUCCESS.OK).send({message: 'Deck is shuffled'}).end();
 });
 
@@ -62,8 +56,6 @@ server.patch('/temp/deck/shuffle/:deck_id', (req, res) => {
 server.get('/temp/deck/:deck_id', (req, res) => {
     const {deck_id} = req.params;
     const deck = decks[deck_id];
-
-    console.log('Get Deck:', deck_id); // Log when getting deck
 
     if (!deck) {
         return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({error: 'Deck is not found' });
@@ -78,8 +70,6 @@ server.get('/temp/deck/:deck_id/card', (req, res) => {
     const {deck_id} = req.params;
     const deck = decks[deck_id];
 
-    console.log('Get Card from Deck:', deck_id); // Log when getting card
-
     if (!deck) {
         return res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).send({ error: 'Deck is not found' });
     }
@@ -90,8 +80,6 @@ server.get('/temp/deck/:deck_id/card', (req, res) => {
 
     const cardIndex = Math.floor(Math.random() * deck.length);
     const card = deck.splice(cardIndex, 1)[0];
-    
-    console.log('Card Drawn:', card); // Log the card drawn
 
     res.status(HTTP_CODES.SUCCESS.OK).send({card});
 });
