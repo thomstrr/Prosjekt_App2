@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardDisplay.classList.add("black-card");
     }
 
-    cardDisplay.textContent = `You drew: ${card.value} of ${card.suit}`;
+    cardDisplay.textContent = `${card.value} of ${card.suit}`;
     updateCardsRemaining();
   });
 
@@ -58,8 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(`${API_BASE}/${deckID}`);
       const data = await response.json();
-
-      console.log("API Response (full deck):", data);
 
       const remaining = data.deck.length;
 
