@@ -1,11 +1,19 @@
 import express from 'express'
 import HTTP_CODES from './utils/httpCodes.mjs';
+import {sessionMiddleware} from "./modules/sessionMiddleware.mjs";
 
 const server = express();
 const port = (process.env.PORT || 8000);
 
 server.set('port', port);
-server.use(express.static('public'));
+
+server.use(sessionMiddleware);
+
+server.get("/", getRoot);
+server.get("/tmp/poem", getPoem);
+server.get("/tmp/quote", getQuote);
+server.post("/tmp/sum/:a/:b", postSum);
+
 
 const decks = {};
 
@@ -87,7 +95,11 @@ server.get('/temp/deck/:deck_id/card', (req, res) => {
 
 //Uke 3 oppgaver-------------------------------------------------------------------------------------------
 function getRoot(req, res, next) {
-    res.status(HTTP_CODES.SUCCESS.OK).send('Hello World').end();
+    res.status(HTTP_CODES.SUCCESS.OK).json({
+        message: "Hello World",
+        sessionId: req.headers["x-session-id"],
+        views: req.session.views 
+    }).end();
 };
 
 function getPoem(req, res, next) {
@@ -122,10 +134,7 @@ function postSum(req, res, next) {
     res.status(HTTP_CODES.SUCCESS.OK).send({ sum }).end();
 };
 
-server.get("/", getRoot);
-server.get("/tmp/poem", getPoem);
-server.get("/tmp/quote", getQuote);
-server.post("/tmp/sum/:a/:b", postSum);
+server.use(express.static('public'));
 
 server.listen(server.get('port'), function () {
     console.log('server running', server.get('port'));
