@@ -34,5 +34,6 @@ export function sessionMiddleware(req, res, next) {
     res.setHeader("X-Session-ID", sessionId); 
 
     next();
+    
 }
 
