@@ -23,10 +23,7 @@ export function sessionMiddleware(req, res, next) {
 
     console.log(`Session ID: ${sessionId}, Current views: ${sessions[sessionId].views}`);
 
-
     sessions[sessionId].views += 1;
-
-    console.log("Updated sessions:", sessions);
 
     fs.writeFileSync(SESSION_FILE, JSON.stringify(sessions, null, 2), "utf8");
 

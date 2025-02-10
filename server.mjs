@@ -93,7 +93,8 @@ server.get('/temp/deck/:deck_id/card', (req, res) => {
 });
 
 
-//Uke 3 oppgaver-------------------------------------------------------------------------------------------
+//Functions-------------------------------------------------------------------------------------------
+
 function getRoot(req, res, next) {
     res.status(HTTP_CODES.SUCCESS.OK).json({
         message: "Hello World",
