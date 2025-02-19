@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "13aba1f3-ef7a-401b-969a-e5943faa093c",
+		"name": "Req collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41190424"
+	},
+	"item": [
+		{
+			"name": "GET req Local",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/tree",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST req Local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parentName\": \"Root\",\r\n  \"name\": \"Category C\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/tree",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT req Local",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"newName\": \"Updated Name Category C\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/tree/Category C",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tree",
+						"Category C"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL req Local",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/tree/Updated Name Category C",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tree",
+						"Updated Name Category C"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET req Render",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://prosjekt-app2.onrender.com/api/tree",
+					"protocol": "https",
+					"host": [
+						"prosjekt-app2",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST req Render",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"parentName\": \"Root\",\r\n  \"name\": \"Category C\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://prosjekt-app2.onrender.com/api/tree",
+					"protocol": "https",
+					"host": [
+						"prosjekt-app2",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT req Render",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"newName\": \"Updated Name Category C\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://prosjekt-app2.onrender.com/api/tree/Category C",
+					"protocol": "https",
+					"host": [
+						"prosjekt-app2",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"tree",
+						"Category C"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL req Render",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://prosjekt-app2.onrender.com/api/tree/Updated Name Category C",
+					"protocol": "https",
+					"host": [
+						"prosjekt-app2",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"tree",
+						"Updated Name Category C"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
