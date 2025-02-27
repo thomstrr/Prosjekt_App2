@@ -1,0 +1,22 @@
+{   
+    "name": "Workout Tracker",
+    "description": "An app to track your workouts",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "icons": [
+      {
+        "name": "small icon",
+        "src": "icons/icon_small.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "name": "large icon",
+        "src": "icons/icon_large.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
