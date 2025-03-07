@@ -14,7 +14,11 @@ self.addEventListener("install", (event) => {
     (async () => {
       const cache = await caches.open(cacheID);
       console.log("[Service Worker] Caching all: app shell and content");
-      await cache.addAll(contentToCache);
+      try {
+        await cache.addAll(contentToCache);
+      } catch (error) {
+        console.error("[Service Worker] Failed to cache resources", error);
+      }
     })()
   );
 });
@@ -40,6 +44,22 @@ self.addEventListener("fetch", (event) => {
       cache.put(event.request, response.clone());
       return response;
     })()
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Activated');
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== cacheID) {
+            console.log(`[Service Worker] Deleting old cache: ${key}`);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
   );
 });
 

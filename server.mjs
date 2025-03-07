@@ -11,6 +11,8 @@ server.set('port', port);
 server.use(sessionMiddleware);
 server.use(express.json());
 
+server.use(express.static('public'));
+
 server.use("/api/tree", treeRouter);
 
 server.get("/", getRoot);
@@ -140,7 +142,7 @@ function postSum(req, res, next) {
     res.status(HTTP_CODES.SUCCESS.OK).send({ sum }).end();
 };
 
-server.use(express.static('public'));
+
 
 server.listen(server.get('port'), function () {
     console.log('server running', server.get('port'));
