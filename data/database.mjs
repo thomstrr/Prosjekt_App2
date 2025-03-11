@@ -1,4 +1,4 @@
-import pg from "pg";
+import pkg from "pg";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -9,10 +9,10 @@ const config = {
 };
 
 
-const connectionPool = new pg.Pool(config);
+const connectionPool = new pkg.Pool(config);
 
 connectionPool.connect()
-    .then(() => console.log("Tilkoblet til PostgreSQL via External Database URL"))
+    .then(() => console.log("Tilkoblet til PostgreSQL"))
     .catch((error) => console.error("Feil ved tilkobling:", error));
 
 export default connectionPool;
