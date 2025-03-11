@@ -1,4 +1,4 @@
-const cacheID = "workout-tracker-" + new Date().getTime(); 
+const cacheID = "workout-tracker-" + new Date().getTime();
 
 const contentToCache = [
   "/index.html",
