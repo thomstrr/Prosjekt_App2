@@ -1,5 +1,5 @@
-import express from 'express';
-import { getAllItems, getItemById, createItem, updateItem, deleteItem  } from '../data/dataController.mjs';
+import express from "express";
+import { getAllItems, getItemById, createItem, updateItem, deleteItem  } from "../data/dataController.mjs";
 
 const router = express.Router();
 

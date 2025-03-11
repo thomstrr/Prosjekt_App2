@@ -2,7 +2,6 @@ import dbManager from "./dbManager.mjs";
 import HTTP_CODES from "../utils/httpCodes.mjs";
 
 
-
 export async function getAllItems(req, res) {
     const result = await dbManager.read("SELECT * FROM items");
     if (!result) return res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).json({ error: "Feil ved henting av data" });
