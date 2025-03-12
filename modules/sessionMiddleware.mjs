@@ -4,21 +4,21 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET || "supersecretkey",
+  secret: process.env.SESSION_SECRET || "secretkey",
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === "production", // Kun secure i produksjon
-    httpOnly: true, // Sikrer at JavaScript ikke kan lese cookies
-    sameSite: "lax" // Hindrer problemer med CORS
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: "lax"
   }
 });
 
-// 📌 Logg sessions for å sjekke om de eksisterer
+
 export default (req, res, next) => {
-  console.log("🔥 Session før:", req.session);
+  console.log("Session før:", req.session);
   sessionMiddleware(req, res, () => {
-    console.log("✅ Session etter:", req.session);
+    console.log("Session etter:", req.session);
     next();
   });
 };
