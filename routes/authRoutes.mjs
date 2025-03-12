@@ -48,6 +48,10 @@ router.post("/login", async (req, res) => {
             return res.status(HTTP_CODES.CLIENT_ERROR.BAD_REQUEST).json({ error: "Feil passord" });
         }
 
+        if (!req.session) {
+            return res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).json({ error: "Session ikke tilgjengelig" });
+        }
+
         req.session.userId = user.id;
         res.json({ message: "Innlogging vellykket", user: { id: user.id, name: user.name, email: user.email } });
     } catch (error) {

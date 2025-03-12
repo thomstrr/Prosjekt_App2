@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
+import sessionMiddleware from "./modules/sessionMiddleware.mjs";
 import dataRoutes from "./routes/dataRoutes.mjs";
 import authRoutes from "./routes/authRoutes.mjs";
-import { sessionMiddleware } from "./modules/sessionMiddleware.mjs";
 import HTTP_CODES from "./utils/httpCodes.mjs";
 
 dotenv.config();
@@ -12,6 +12,7 @@ const port = process.env.PORT || 8000;
 
 server.set("port", port);
 server.use(express.json());
+
 server.use(sessionMiddleware);
 server.use(express.static("public"));
 
