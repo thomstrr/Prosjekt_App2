@@ -18,10 +18,10 @@ server.get("/", (req, res) => {
   res.send("Workout Tracker API is running");
 });
 
-console.log("Loading /workouts route...");
-server.use("/workouts", dataRoutes);
+console.log("Prøver å registrere /workouts...");
+server.use("/", dataRoutes);
 
-console.log("Registrerte ruter:");
+console.log("Registrerte ruter etter at /workouts ble lastet:");
 server._router.stack.forEach((route) => {
   if (route.route) {
     console.log(`Method: ${Object.keys(route.route.methods)[0].toUpperCase()} - Path: ${route.route.path}`);
@@ -36,6 +36,5 @@ server.listen(server.get("port"), () => {
   console.log(`Server running on http://localhost:${server.get("port")}`);
 });
 
-
-
 export default server;
+
