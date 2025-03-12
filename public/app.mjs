@@ -9,7 +9,7 @@ if ("serviceWorker" in navigator) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
-              console.log("🔄 Ny Service Worker er tilgjengelig! Oppdater siden for å bruke den.");
+              console.log("Ny Service Worker er tilgjengelig! Oppdater siden for å bruke den.");
             }
           }
         };
