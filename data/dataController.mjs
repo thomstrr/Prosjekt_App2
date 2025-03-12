@@ -25,6 +25,7 @@ export const getWorkoutById = async (req, res) => {
 
 export const createWorkout = async (req, res) => {
   const { user_id, date, exercise_name, sets, reps, weight } = req.body;
+  
   try {
       const result = await dbManager.create(
           "INSERT INTO workouts (user_id, date, exercise_name, sets, reps, weight) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",

@@ -22,9 +22,15 @@ console.log("Prøver å registrere /workouts...");
 server.use("/", dataRoutes);
 
 console.log("Registrerte ruter etter at /workouts ble lastet:");
-server._router.stack.forEach((route) => {
-  if (route.route) {
-    console.log(`Method: ${Object.keys(route.route.methods)[0].toUpperCase()} - Path: ${route.route.path}`);
+server._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(`Method: ${Object.keys(middleware.route.methods)[0].toUpperCase()} - Path: ${middleware.route.path}`);
+  } else if (middleware.name === "router") {
+    middleware.handle.stack.forEach((route) => {
+      if (route.route) {
+        console.log(`Method: ${Object.keys(route.route.methods)[0].toUpperCase()} - Path: ${route.route.path}`);
+      }
+    });
   }
 });
 
