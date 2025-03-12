@@ -1,18 +1,33 @@
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("sw.js")
+    .register("/sw.js") 
     .then((registration) => {
-      registration.update();
       console.log("Service Worker registrert:", registration);
+
+      registration.onupdatefound = () => {
+        const installingWorker = registration.installing;
+        installingWorker.onstatechange = () => {
+          if (installingWorker.state === "installed") {
+            if (navigator.serviceWorker.controller) {
+              console.log("🔄 Ny Service Worker er tilgjengelig! Oppdater siden for å bruke den.");
+            }
+          }
+        };
+      };
     })
     .catch((error) => {
       console.error("Service Worker registrering feilet:", error);
     });
 
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.update();
-  });
+  navigator.serviceWorker.ready
+    .then((registration) => {
+      console.log("Service Worker er klar:", registration);
+    })
+    .catch((error) => {
+      console.error("Feil ved Service Worker readiness:", error);
+    });
 }
+
 
 let sessionId = localStorage.getItem("session_id");
 
