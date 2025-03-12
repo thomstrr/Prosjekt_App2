@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import dataRoutes from "./routes/dataRoutes.mjs";
+import authRoutes from "./routes/authRoutes.mjs";
 import { sessionMiddleware } from "./modules/sessionMiddleware.mjs";
 import HTTP_CODES from "./utils/httpCodes.mjs";
 
@@ -19,6 +20,7 @@ server.get("/", (req, res) => {
 });
 
 server.use("/", dataRoutes);
+server.use("/auth", authRoutes);
 
 server._router.stack.forEach((middleware) => {
   if (middleware.route) {

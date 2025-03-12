@@ -25,7 +25,6 @@ export async function sessionMiddleware(req, res, next) {
 
   if (!sessionId && count < 3) {
     count++;
-    console.log(count);
     return next();
   } else {
     count = 0;

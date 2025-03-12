@@ -1,19 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracker</title>
     <link rel="manifest" href="manifest.webmanifest" />
-    <title>Workout App</title>
-    <link href="/style.css" rel="stylesheet" >
-    
-   
+    <link href="/style.css" rel="stylesheet">
+    <script type="module" src="/app.mjs"></script>
+    <style>
+        .page { display: none; } 
+        .active { display: block; }
+    </style>
 </head>
 <body>
 
-    <h1>Hello World!</h1>
-    
-    <script src="/app.mjs" type="module"></script>
+    <div id="homePage" class="page active">
+        <h1>Workout Tracker</h1>
+        <button onclick="showPage('loginPage')">Logg inn / Registrer</button>
+        <button onclick="showPage('workoutPage')">Se treningsøkter</button>
+        <button onclick="logout()">Logg ut</button>
+    </div>
+
+    <div id="loginPage" class="page">
+        <h1>Logg inn</h1>
+        <input type="email" id="loginEmail" placeholder="E-post">
+        <input type="password" id="loginPassword" placeholder="Passord">
+        <button onclick="login()">Logg inn</button>
+
+        <h1>Registrer deg</h1>
+        <input type="text" id="registerName" placeholder="Navn">
+        <input type="email" id="registerEmail" placeholder="E-post">
+        <input type="password" id="registerPassword" placeholder="Passord">
+        <button onclick="register()">Registrer</button>
+
+        <button onclick="showPage('homePage')">Tilbake</button>
+    </div>
+
+    <div id="workoutPage" class="page">
+        <h1>Mine Treningsøkter</h1>
+        <ul id="workoutList"></ul>
+
+        <h2>Legg til ny treningsøkt</h2>
+        <input type="date" id="workoutDate">
+        <input type="text" id="exerciseName" placeholder="Øvelse">
+        <input type="number" id="sets" placeholder="Sett">
+        <input type="number" id="reps" placeholder="Reps">
+        <input type="number" id="weight" placeholder="Vekt (kg)">
+        <button onclick="addWorkout()">Legg til</button>
+
+        <button onclick="showPage('homePage')">Tilbake</button>
+    </div>
     
 </body>
 </html>
