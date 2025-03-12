@@ -6,6 +6,7 @@ const contentToCache = [
   "/style.css",
   "/icons/icon_large.png",
   "/icons/icon_small.png",
+  "/manifest.webmanifest"
 ];
 
 self.addEventListener("install", (event) => {

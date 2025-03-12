@@ -1,7 +1,9 @@
 {   
+    "id": "/",
     "name": "Workout Tracker",
     "description": "An app to track your workouts",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#000000",
