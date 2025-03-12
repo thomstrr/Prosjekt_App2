@@ -18,10 +18,8 @@ server.get("/", (req, res) => {
   res.send("Workout Tracker API is running");
 });
 
-console.log("Prøver å registrere /workouts...");
 server.use("/", dataRoutes);
 
-console.log("Registrerte ruter etter at /workouts ble lastet:");
 server._router.stack.forEach((middleware) => {
   if (middleware.route) {
     console.log(`Method: ${Object.keys(middleware.route.methods)[0].toUpperCase()} - Path: ${middleware.route.path}`);
