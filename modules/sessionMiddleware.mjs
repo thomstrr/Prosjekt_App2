@@ -1,16 +1,19 @@
 import session from "express-session";
 import dotenv from "dotenv";
 
+
 dotenv.config();
+
+const isProduction = process.env.NODE_ENV === "production";
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET || "secretkey",
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction === "production",
     httpOnly: true,
-    sameSite: "strict"
+    sameSite: "None"
   }
 });
 

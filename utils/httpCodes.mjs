@@ -4,6 +4,7 @@ const HTTP_CODES = {
   SUCCESS: {
     OK: 200,
     CREATED: 201,
+    NO_CONTENT: 204
   },
   CLIENT_ERROR: {
     BAD_REQUEST: 400,
