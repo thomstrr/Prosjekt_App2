@@ -48,14 +48,29 @@ router.post("/login", async (req, res) => {
             return res.status(HTTP_CODES.CLIENT_ERROR.BAD_REQUEST).json({ error: "Feil passord" });
         }
 
-        if (!req.session) {
-            return res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).json({ error: "Session ikke tilgjengelig" });
-        }
-
         req.session.userId = user.id;
-        res.json({ message: "Innlogging vellykket", user: { id: user.id, name: user.name, email: user.email } });
+        req.session.username = user.name;
+        req.session.save(() => {
+            res.cookie("loggedIn", "true", { httpOnly: false, path: "/" });
+            res.json({ message: "Innlogging vellykket", user: { id: user.id, name: user.name, email: user.email } });
+        });
+
     } catch (error) {
         res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+});
+
+router.post("/logout", (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).json({ error: "Kunne ikke logge ut" });
+            }
+            res.clearCookie("connect.sid");
+            res.json({ message: "Du er logget ut!" });
+        });
+    } else {
+        res.status(HTTP_CODES.CLIENT_ERROR.BAD_REQUEST).json({ error: "Ingen aktiv session" });
     }
 });
 

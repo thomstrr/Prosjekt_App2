@@ -28,12 +28,8 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-
-let sessionId = localStorage.getItem("session_id");
-
 async function sendRequest(endpoint, method = "GET", body = null) {
   const headers = { "Content-Type": "application/json" };
-  if (sessionId) headers["X-Session-ID"] = sessionId;
 
   const options = { method, headers };
   if (body) options.body = JSON.stringify(body);
@@ -44,18 +40,16 @@ async function sendRequest(endpoint, method = "GET", body = null) {
     return;
   }
 
-  const newSessionId = response.headers.get("X-Session-ID");
-  if (newSessionId && newSessionId !== sessionId) {
-    sessionId = newSessionId;
-    localStorage.setItem("session_id", sessionId);
-  }
-
   return response.json();
 }
 
 function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
-  document.getElementById(pageId).classList.add("active");
+    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
+
+    if (pageId === "workoutPage") {
+        fetchWorkouts();
+    }
 }
 
 async function register() {
@@ -78,16 +72,19 @@ async function login() {
   const response = await sendRequest("/auth/login", "POST", { email, password });
 
   if (response?.user) {
-    alert("Innlogging vellykket!");
-    showPage("homePage");
+      alert("Innlogging vellykket!");
+      document.cookie = "loggedIn=true; path=/"; 
+      showPage("homePage");
   }
 }
 
-function logout() {
-  localStorage.removeItem("session_id");
-  sessionId = null;
+async function logout() {
+  await sendRequest("/auth/logout", "POST"); 
+
+  document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   alert("Du er logget ut!");
-  showPage("homePage");
+  
+  showPage("loginPage");
 }
 
 async function fetchWorkouts() {
@@ -121,7 +118,8 @@ async function addWorkout() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("workoutList")) fetchWorkouts();
+  const isLoggedIn = document.cookie.includes("loggedIn=true");
+  showPage(isLoggedIn ? "homePage" : "loginPage");
 });
 
 window.showPage = showPage;
@@ -130,3 +128,4 @@ window.login = login;
 window.logout = logout;
 window.fetchWorkouts = fetchWorkouts;
 window.addWorkout = addWorkout;
+

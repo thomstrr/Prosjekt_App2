@@ -14,14 +14,7 @@
 </head>
 <body>
 
-    <div id="homePage" class="page active">
-        <h1>Workout Tracker</h1>
-        <button onclick="showPage('loginPage')">Logg inn / Registrer</button>
-        <button onclick="showPage('workoutPage')">Se treningsøkter</button>
-        <button onclick="logout()">Logg ut</button>
-    </div>
-
-    <div id="loginPage" class="page">
+    <div id="loginPage" class="page active">
         <h1>Logg inn</h1>
         <input type="email" id="loginEmail" placeholder="E-post">
         <input type="password" id="loginPassword" placeholder="Passord">
@@ -32,15 +25,19 @@
         <input type="email" id="registerEmail" placeholder="E-post">
         <input type="password" id="registerPassword" placeholder="Passord">
         <button onclick="register()">Registrer</button>
+    </div>
 
-        <button onclick="showPage('homePage')">Tilbake</button>
+    <div id="homePage" class="page">
+        <h1>Workout Tracker</h1>
+        <button onclick="showPage('workoutPage')">Se treningsøkter</button>
+        <button onclick="logout()">Logg ut</button>
     </div>
 
     <div id="workoutPage" class="page">
-        <h1>Mine Treningsøkter</h1>
+        <h1>Mine Øvelser</h1>
         <ul id="workoutList"></ul>
 
-        <h2>Legg til ny treningsøkt</h2>
+        <h2>Legg til nye øvelser</h2>
         <input type="date" id="workoutDate">
         <input type="text" id="exerciseName" placeholder="Øvelse">
         <input type="number" id="sets" placeholder="Sett">
@@ -48,8 +45,8 @@
         <input type="number" id="weight" placeholder="Vekt (kg)">
         <button onclick="addWorkout()">Legg til</button>
 
-        <button onclick="showPage('homePage')">Tilbake</button>
+        <button onclick="showPage('homePage')">Gå tilbake</button>
     </div>
-    
+
 </body>
 </html>

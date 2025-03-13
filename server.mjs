@@ -13,6 +13,20 @@ const port = process.env.PORT || 8000;
 server.set("port", port);
 server.use(express.json());
 
+server.use(express.static("public"));
+
+server.use((req, res, next) => {
+  const ignoredPaths = ["/favicon.ico", "/sw.js", "/manifest.webmanifest"];
+  if (ignoredPaths.includes(req.url) || req.url.startsWith("/icons/") || req.url.endsWith(".css") || req.url.endsWith(".js")) {
+    return next();
+  }
+  
+  console.log(`🔥 Handling request: ${req.method} ${req.url}`);
+  next();
+});
+
+server.use(sessionMiddleware);
+
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://prosjekt-app2.onrender.com");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -26,40 +40,11 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use(sessionMiddleware);
-server.use(express.static("public"));
-
-server.get("/", (req, res) => {
-  res.send("Workout Tracker API is running");
-});
-
 server.use("/", dataRoutes);
 server.use("/auth", authRoutes);
 
-server._router.stack.forEach((middleware) => {
-  if (middleware.route) {
-    console.log(
-      `Method: ${Object.keys(
-        middleware.route.methods
-      )[0].toUpperCase()} - Path: ${middleware.route.path}`
-    );
-  } else if (middleware.name === "router") {
-    middleware.handle.stack.forEach((route) => {
-      if (route.route) {
-        console.log(
-          `Method: ${Object.keys(
-            route.route.methods
-          )[0].toUpperCase()} - Path: ${route.route.path}`
-        );
-      }
-    });
-  }
-});
-
 server.use((req, res) => {
-  res
-    .status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND)
-    .json({ error: "Route not found" });
+  res.status(HTTP_CODES.CLIENT_ERROR.NOT_FOUND).json({ error: "Route not found" });
 });
 
 server.listen(server.get("port"), () => {
