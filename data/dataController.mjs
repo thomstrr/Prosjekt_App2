@@ -12,6 +12,7 @@ export const getAllWorkouts = async (req, res) => {
 
 export const getWorkoutById = async (req, res) => {
   const { id } = req.params;
+  
   try {
       const result = await dbManager.read("SELECT * FROM workouts WHERE id = $1", id);
       if (!result || result.length === 0) {
@@ -24,12 +25,12 @@ export const getWorkoutById = async (req, res) => {
 };
 
 export const createWorkout = async (req, res) => {
-  const { user_id, date, exercise_name, sets, reps, weight } = req.body;
+  const { date, exercise_name, sets, reps, weight } = req.body;
   
   try {
       const result = await dbManager.create(
-          "INSERT INTO workouts (user_id, date, exercise_name, sets, reps, weight) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-          user_id, date, exercise_name, sets, reps, weight
+          "INSERT INTO workouts (date, exercise_name, sets, reps, weight) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+          date, exercise_name, sets, reps, weight
       );
       res.status(HTTP_CODES.SUCCESS.CREATED).json(result[0]);
   } catch (error) {

@@ -12,20 +12,20 @@ const port = process.env.PORT || 8000;
 
 server.set("port", port);
 server.use(express.json());
-
 server.use(express.static("public"));
+
+server.use(sessionMiddleware);
 
 server.use((req, res, next) => {
   const ignoredPaths = ["/favicon.ico", "/sw.js", "/manifest.webmanifest"];
-  if (ignoredPaths.includes(req.url) || req.url.startsWith("/icons/") || req.url.endsWith(".css") || req.url.endsWith(".js")) {
-    return next();
+  const ignoredExtensions = [".css", ".js", ".png", ".jpg", ".jpeg", ".svg"];
+
+  if (!ignoredPaths.includes(req.url) && !ignoredExtensions.some(ext => req.url.endsWith(ext))) {
+    console.log(`Handling request: ${req.method} ${req.url}`);
   }
-  
-  console.log(`🔥 Handling request: ${req.method} ${req.url}`);
+
   next();
 });
-
-server.use(sessionMiddleware);
 
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://prosjekt-app2.onrender.com");

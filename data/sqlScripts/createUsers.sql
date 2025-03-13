@@ -1,1 +1,3 @@
-INSERT INTO users (id, email, password) VALUES (1, 'test@example.com', 'password');
+INSERT INTO users (name, email, password) 
+VALUES ('Testbruker', 'testbruker@example.com', 'passord123')
+RETURNING *;

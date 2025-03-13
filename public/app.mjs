@@ -2,7 +2,6 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/sw.js") 
     .then((registration) => {
-      console.log("Service Worker registrert:", registration);
 
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
@@ -88,15 +87,30 @@ async function logout() {
 }
 
 async function fetchWorkouts() {
+
   const response = await sendRequest("/workouts");
 
+  if (!response) {
+    console.error("Ingen respons fra serveren.");
+    return;
+  }
+
   const list = document.getElementById("workoutList");
+
+  if (!list) {
+    console.error("Elementet #workoutList finnes ikke i DOM!");
+    return;
+  }
+
   list.innerHTML = "";
 
-  if (Array.isArray(response)) {
+  if (Array.isArray(response) && response.length > 0) {
     response.forEach((workout) => {
+      const date = new Date(workout.date).toLocaleDateString("no-NO");
+
       const item = document.createElement("li");
-      item.textContent = `${workout.date} - ${workout.exercise_name}: ${workout.sets} sett x ${workout.reps} reps (${workout.weight}kg)`;
+      item.textContent = `${date} - ${workout.exercise_name}: ${workout.sets} sett x ${workout.reps} reps (${workout.weight}kg)`;
+
       list.appendChild(item);
     });
   }
@@ -109,18 +123,34 @@ async function addWorkout() {
   const reps = document.getElementById("reps").value;
   const weight = document.getElementById("weight").value;
 
+  if (!date || !exercise_name || !sets || !reps || !weight) {
+    alert("Vennligst fyll ut alle felt!");
+    return;
+  }
+
   const response = await sendRequest("/workouts", "POST", { date, exercise_name, sets, reps, weight });
 
   if (response?.id) {
-    alert("Treningsøkt lagt til!");
+    alert(`Treningsøkt "${exercise_name}" lagt til!`);
     fetchWorkouts();
+  } else {
+    alert("Kunne ikke lagre treningsøkt. Prøv igjen.");
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const isLoggedIn = document.cookie.includes("loggedIn=true");
-  showPage(isLoggedIn ? "homePage" : "loginPage");
+  sessionId = localStorage.getItem("session_id");
+
+  if (!sessionId) {
+      showPage("loginPage");
+  } else {
+      showPage("homePage");
+  }
+  if (document.getElementById("workoutList")) {
+      fetchWorkouts();
+  }
 });
+
 
 window.showPage = showPage;
 window.register = register;

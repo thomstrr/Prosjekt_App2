@@ -12,7 +12,7 @@ const connectionPool = new pkg.Pool(config);
 
 connectionPool
   .connect()
-  .then(() => console.log("Tilkoblet til PostgreSQL"))
+  .then(() => console.log("Tilkoblet til PostgreSQL!"))
   .catch((error) => console.error("Feil ved tilkobling:", error));
 
 export default connectionPool;

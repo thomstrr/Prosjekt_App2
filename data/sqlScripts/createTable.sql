@@ -1,19 +1,18 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE workouts (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     date DATE NOT NULL,
     exercise_name TEXT NOT NULL,
-    sets INT NOT NULL,
-    reps INT NOT NULL,
-    weight DECIMAL NOT NULL
+    sets INTEGER NOT NULL,
+    reps INTEGER NOT NULL,
+    weight DECIMAL(10,2) NOT NULL
 );
-
 
 
