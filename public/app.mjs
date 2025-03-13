@@ -1,14 +1,15 @@
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/sw.js") 
+    .register("/sw.js")
     .then((registration) => {
-
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {
           if (installingWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
-              console.log("Ny Service Worker er tilgjengelig! Oppdater siden for å bruke den.");
+              console.log(
+                "Ny Service Worker er tilgjengelig! Oppdater siden for å bruke den."
+              );
             }
           }
         };
@@ -43,12 +44,14 @@ async function sendRequest(endpoint, method = "GET", body = null) {
 }
 
 function showPage(pageId) {
-    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
-    document.getElementById(pageId).classList.add("active");
+  document
+    .querySelectorAll(".page")
+    .forEach((page) => page.classList.remove("active"));
+  document.getElementById(pageId).classList.add("active");
 
-    if (pageId === "workoutPage") {
-        fetchWorkouts();
-    }
+  if (pageId === "workoutPage") {
+    fetchWorkouts();
+  }
 }
 
 async function register() {
@@ -56,7 +59,11 @@ async function register() {
   const email = document.getElementById("registerEmail").value;
   const password = document.getElementById("registerPassword").value;
 
-  const response = await sendRequest("/auth/register", "POST", { name, email, password });
+  const response = await sendRequest("/auth/register", "POST", {
+    name,
+    email,
+    password,
+  });
 
   if (response?.id) {
     alert("Registrering vellykket! Logg inn nå.");
@@ -68,26 +75,28 @@ async function login() {
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
-  const response = await sendRequest("/auth/login", "POST", { email, password });
+  const response = await sendRequest("/auth/login", "POST", {
+    email,
+    password,
+  });
 
   if (response?.user) {
-      alert("Innlogging vellykket!");
-      document.cookie = "loggedIn=true; path=/"; 
-      showPage("homePage");
+    alert("Innlogging vellykket!");
+    document.cookie = "loggedIn=true; path=/";
+    showPage("homePage");
   }
 }
 
 async function logout() {
-  await sendRequest("/auth/logout", "POST"); 
+  await sendRequest("/auth/logout", "POST");
 
   document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   alert("Du er logget ut!");
-  
+
   showPage("loginPage");
 }
 
 async function fetchWorkouts() {
-
   const response = await sendRequest("/workouts");
 
   if (!response) {
@@ -128,7 +137,13 @@ async function addWorkout() {
     return;
   }
 
-  const response = await sendRequest("/workouts", "POST", { date, exercise_name, sets, reps, weight });
+  const response = await sendRequest("/workouts", "POST", {
+    date,
+    exercise_name,
+    sets,
+    reps,
+    weight,
+  });
 
   if (response?.id) {
     alert(`Treningsøkt "${exercise_name}" lagt til!`);
@@ -138,19 +153,22 @@ async function addWorkout() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  sessionId = localStorage.getItem("session_id");
+function isLoggedIn() {
+  return document.cookie
+    .split("; ")
+    .some((cookie) => cookie.startsWith("loggedIn=true"));
+}
 
-  if (!sessionId) {
-      showPage("loginPage");
+document.addEventListener("DOMContentLoaded", () => {
+  if (!isLoggedIn()) {
+    showPage("loginPage");
   } else {
-      showPage("homePage");
+    showPage("homePage");
   }
   if (document.getElementById("workoutList")) {
-      fetchWorkouts();
+    fetchWorkouts();
   }
 });
-
 
 window.showPage = showPage;
 window.register = register;
@@ -158,4 +176,3 @@ window.login = login;
 window.logout = logout;
 window.fetchWorkouts = fetchWorkouts;
 window.addWorkout = addWorkout;
-
