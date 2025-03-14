@@ -49,7 +49,6 @@ export default (req, res, next) => {
     console.log("Mottatt session-cookie:", req.headers.cookie ? req.headers.cookie : "Ingen session-cookie");
   }
 
-
   sessionMiddleware(req, res, (error) => {
     if (error) {
       return res.status(HTTP_CODES.SERVER_ERROR.INTERNAL_SERVER_ERROR).send("Session error");
