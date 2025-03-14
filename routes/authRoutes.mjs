@@ -2,7 +2,6 @@ import express from "express";
 import * as crypto from "node:crypto";
 import dbManager from "../data/dbManager.mjs";
 import HTTP_CODES from "../utils/httpCodes.mjs";
-import session from "express-session";
 
 const router = express.Router();
 
