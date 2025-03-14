@@ -132,19 +132,26 @@ async function addWorkout() {
     return;
   }
 
-  const response = await sendRequest("/workouts", "POST", {
-    date,
-    exercise_name,
-    sets,
-    reps,
-    weight,
-  });
+  try {
+    const response = await sendRequest("/workouts", "POST", {
+      date,
+      exercise_name,
+      sets,
+      reps,
+      weight,
+    });
 
-  if (response?.id) {
-    alert(`Treningsøkt "${exercise_name}" lagt til!`);
-    fetchWorkouts();
-  } else {
-    alert("Kunne ikke lagre treningsøkt. Prøv igjen.");
+    const workout = Array.isArray(response) && response.length > 0 ? response[0] : null;
+
+    if (workout?.id) {
+      alert(`Treningsøkt "${exercise_name}" lagt til!`);
+      fetchWorkouts();
+    } else {
+      alert("Kunne ikke lagre treningsøkt. Prøv igjen.");
+    }
+  } catch (error) {
+    console.error("Feil ved opprettelse:", error);
+    alert("Feil ved opprettelse av treningsøkt. Prøv igjen.");
   }
 }
 

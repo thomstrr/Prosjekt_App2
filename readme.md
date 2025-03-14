@@ -12,11 +12,11 @@ Client app
 Server (App)
 - At minimum one middleware (of your own devising)✅ 
 - Rest'ish crud API for communication between Client and Database.✅ 
-- Data abstraction layer (i.e. classes for the data objects).
-- Percistance manager (i.e. a structured way of communicating with the database)
+- Data abstraction layer (i.e. classes for the data objects).✅ 
+- Percistance manager (i.e. a structured way of communicating with the database)✅ 
 - Instance must be running on Render (i.e. we must be able to test your app as a user)✅ 
 
 Database
 - PostgreSql✅ 
 - Hosted on render.✅ 
-- Minimum one table (keep sql script for table creation).✅ 
+- Minimum one table (keep sql script for table creation).✅  "users", "workouts", "session"
