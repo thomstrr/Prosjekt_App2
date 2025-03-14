@@ -99,11 +99,6 @@ async function logout() {
 async function fetchWorkouts() {
   const response = await sendRequest("/workouts");
 
-  if (!response) {
-    console.error("Ingen respons fra serveren.");
-    return;
-  }
-
   const list = document.getElementById("workoutList");
 
   if (!list) {
